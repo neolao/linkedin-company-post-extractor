@@ -26,19 +26,18 @@ describe('Extract', () => {
 
         cy.wrap($postElement).get('.feed-shared-update-v2__description-wrapper').then(($descriptionElement) => {
           description = $descriptionElement.text()
+
+          cy.task('log', 'Get post URL: click on menu')
+          cy.wrap($postElement).get('.feed-shared-control-menu button').click()
+          cy.wait(1000);
+          cy.task('log', 'Get post URL: get href on link')
+          cy.get('.artdeco-toast-item__cta').first().then(($linkElement) => {
+            const url = $linkElement.attr('href')
+
+            cy.task('log', 'Done')
+            cy.task('logPost', {company, urn, url, description})
+          });
         })
-
-        cy.task('log', `Get post URL ...`)
-        cy.wrap($postElement).get('.feed-shared-control-menu button').click()
-        cy.wait(2000);
-        cy.contains('Copier le lien vers le post').click()
-        cy.wait(2000);
-        cy.contains('Voir le post').click()
-        cy.wait(2000)
-
-        const url = cy.url();
-
-        cy.task('logPost', {company, urn, url, description})
       })
     }
   })
