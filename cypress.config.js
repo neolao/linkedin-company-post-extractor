@@ -2,7 +2,7 @@ import { defineConfig } from "cypress";
 import fs from "fs";
 
 function updateRSSFile(company, urn, url, description) {
-  console.log(company, urn, description)
+  console.log(company, urn, url, description)
 
   const content = `<rss version="2.0">
   <channel>
