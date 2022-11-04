@@ -21,15 +21,25 @@ describe('Extract', () => {
 
       cy.get('.feed-shared-update-v2').first().then(($postElement) => {
         const urn = $postElement.attr('data-urn')
-        cy.task('log', urn)
+        let description = "";
 
         cy.wrap($postElement).get('.feed-shared-update-v2__description-wrapper').then(($descriptionElement) => {
-          const description = $descriptionElement.text()
-          cy.task('log', description)
-          cy.task('add', {urn, description})
+          description = $descriptionElement.text()
         })
+
+        cy.wrap($postElement).get('.feed-shared-control-menu button').click()
+        cy.wait(2000);
+
+        //cy.wrap($postElement).get('.feed-shared-control-menu__content button').click()
+        cy.contains('Copier le lien vers le post').click()
+        cy.wait(2000);
+        cy.contains('Voir le post').click()
+        cy.wait(2000)
+
+        const url = cy.url();
+
+        cy.task('add', {company, urn, url, description})
       })
     }
-    
   })
 })
