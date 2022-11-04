@@ -1,4 +1,7 @@
 {
-    "username": "",
-    "password": ""
-  }
+  "username": "",
+  "password": "",
+  "companies": [
+    "microsoft"
+  ]
+}
