@@ -20,27 +20,34 @@ describe('Extract', () => {
       cy.task('log', `Visit ${companyUrl} ...`)
       cy.visit(companyUrl, visitOptions)
 
+      let urn, description;
+      cy.task('log', 'Get post URN')
       cy.get('.feed-shared-update-v2').first().then(($postElement) => {
-        cy.task('log', 'Get post URN')
-        const urn = $postElement.attr('data-urn')
-        let description = "";
-
-        cy.task('log', 'Get post description')
-        cy.wrap($postElement).get('.feed-shared-update-v2__description-wrapper').then(($descriptionElement) => {
-          description = $descriptionElement.text()
-        })
-
-        cy.task('log', 'Get post URL: click on menu')
-        cy.wrap($postElement).get('.feed-shared-control-menu button').click()
-        cy.wait(1000);
-        cy.task('log', 'Get post URL: get href on link')
-        cy.get('.artdeco-toast-item__cta').first().then(($linkElement) => {
-          const url = $linkElement.attr('href')
-
-          cy.task('log', 'Done')
-          cy.task('logPost', {company, urn, url, description})
-        });
+        urn = $postElement.attr('data-urn')
+        cy.task('log', `URN: ${urn}`)
       })
+      cy.task('log', 'Get post description')
+      cy.get('.feed-shared-update-v2 .feed-shared-update-v2__description-wrapper').first().then(($descriptionElement) => {
+        description = $descriptionElement.text()
+        cy.task('log', `Description: ${description}`)
+      })
+
+      cy.task('log', 'Get post URL: click on menu')
+      cy.get('.feed-shared-update-v2 .feed-shared-control-menu button').click()
+      cy.wait(2000);
+
+      cy.task('log', 'Get post URL: click on menu entry')
+      cy.contains('Copier le lien vers le post').click();
+      cy.wait(2000);
+      
+      cy.task('log', 'Get post URL: get href on link')
+      cy.get('.artdeco-toast-item__cta').first().then(($linkElement) => {
+        const url = $linkElement.attr('href')
+        cy.task('log', `URL: ${url}`)
+
+        cy.task('log', 'Done')
+        cy.task('logPost', {company, urn, url, description})
+      });
     }
   })
 })
