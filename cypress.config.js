@@ -6,8 +6,8 @@ function updateRSSFile(company, urn, url, description) {
 
   const content = `<rss version="2.0">
   <channel>
-      <title>XUL</title>
-      <link>https://www.xul.fr</link>
+      <title>${company}</title>
+      <link>https://www.linkedin.com/company/${company}</link>
       <description>${company}</description>
       <item>
         <title>${urn}</title>
