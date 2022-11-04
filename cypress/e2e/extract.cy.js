@@ -17,6 +17,7 @@ describe('Extract', () => {
       cy.task('log', `Parse ${company} ...`)
 
       const companyUrl = `https://www.linkedin.com/company/${company}/posts/?feedView=all`
+      cy.task('log', `Visit ${companyUrl} ...`)
       cy.visit(companyUrl, visitOptions)
 
       cy.get('.feed-shared-update-v2').first().then(($postElement) => {
@@ -27,10 +28,9 @@ describe('Extract', () => {
           description = $descriptionElement.text()
         })
 
+        cy.task('log', `Get post URL ...`)
         cy.wrap($postElement).get('.feed-shared-control-menu button').click()
         cy.wait(2000);
-
-        //cy.wrap($postElement).get('.feed-shared-control-menu__content button').click()
         cy.contains('Copier le lien vers le post').click()
         cy.wait(2000);
         cy.contains('Voir le post').click()
