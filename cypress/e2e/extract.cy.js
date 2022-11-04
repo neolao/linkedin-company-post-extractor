@@ -38,7 +38,7 @@ describe('Extract', () => {
 
         const url = cy.url();
 
-        cy.task('add', {company, urn, url, description})
+        cy.task('logPost', {company, urn, url, description})
       })
     }
   })

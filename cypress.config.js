@@ -1,5 +1,4 @@
 import { defineConfig } from "cypress";
-import fs from "fs";
 
 function updateRSSFile(company, urn, url, description) {
   console.log(company, urn, url, description)
@@ -16,7 +15,6 @@ function updateRSSFile(company, urn, url, description) {
       </item>
   </channel>
   </rss>`;
-  fs.writeFile(`feeds/${company}.xml`, content);
 }
 
 export default defineConfig({
@@ -32,8 +30,8 @@ export default defineConfig({
           console.log(message)
           return null
         },
-        add ({company, urn, url, description}) {
-          updateRSSFile(company, urn, url, description);
+        logPost ({company, urn, url, description}) {
+          console.log(company, urn, url, description);
           return null
         }
       })
