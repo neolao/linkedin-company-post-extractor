@@ -11,7 +11,13 @@ describe('Extract last post', () => {
     cy.get('#password').type(config.password)
     cy.get('button[type="submit"]').click()
 
-    cy.visit(companyUrl)
+    cy.visit(
+        companyUrl, 
+        {
+            failOnStatusCode: false,
+            timeout: 60000
+        }
+    );
 
     //cy.get('.main-feed-activity-card').invoke('text').then((text) => {
     
@@ -21,7 +27,9 @@ describe('Extract last post', () => {
     });
     */
     cy.get('.feed-shared-update-v2 .feed-shared-update-v2__description-wrapper').then(function($elem) {
-        cy.log($elem.text())
+        const hop = $elem.text();
+        cy.log(hop)
+        cy.task('log', hop)
    })
   })
 })
