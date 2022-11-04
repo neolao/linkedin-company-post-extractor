@@ -1,0 +1,19 @@
+{
+    "name": "linkedin-company-post-extractor",
+    "private": true,
+    "version": "1.0.0",
+    "type": "module",
+    "main": "index.js",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/neolao/linkedin-company-post-extractor.git"
+    },
+    "dependencies": {
+      "axios": "^0.27.2",
+      "cypress": "^10.7.0"
+    },
+    "scripts": {
+      "cypress:open": "cypress open",
+      "cypress:run": "cypress run"
+    }
+  }
