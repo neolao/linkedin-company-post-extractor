@@ -21,23 +21,25 @@ describe('Extract', () => {
       cy.visit(companyUrl, visitOptions)
 
       cy.get('.feed-shared-update-v2').first().then(($postElement) => {
+        cy.task('log', 'Get post URN')
         const urn = $postElement.attr('data-urn')
         let description = "";
 
+        cy.task('log', 'Get post description')
         cy.wrap($postElement).get('.feed-shared-update-v2__description-wrapper').then(($descriptionElement) => {
           description = $descriptionElement.text()
-
-          cy.task('log', 'Get post URL: click on menu')
-          cy.wrap($postElement).get('.feed-shared-control-menu button').click()
-          cy.wait(1000);
-          cy.task('log', 'Get post URL: get href on link')
-          cy.get('.artdeco-toast-item__cta').first().then(($linkElement) => {
-            const url = $linkElement.attr('href')
-
-            cy.task('log', 'Done')
-            cy.task('logPost', {company, urn, url, description})
-          });
         })
+
+        cy.task('log', 'Get post URL: click on menu')
+        cy.wrap($postElement).get('.feed-shared-control-menu button').click()
+        cy.wait(1000);
+        cy.task('log', 'Get post URL: get href on link')
+        cy.get('.artdeco-toast-item__cta').first().then(($linkElement) => {
+          const url = $linkElement.attr('href')
+
+          cy.task('log', 'Done')
+          cy.task('logPost', {company, urn, url, description})
+        });
       })
     }
   })
