@@ -13,9 +13,9 @@ describe('Extract', () => {
     cy.get('#password').type(config.password)
     cy.get('button[type="submit"]').click()
 
-    cy.get('.feed-shared-control-menu').should('not.exist')
+    cy.get('.feed-shared-control-menu').should('exist')
 
-    for ( let company of config.companies) {
+    for (let company of config.companies) {
       cy.task('log', `Parse ${company.name} ...`)
 
       const companyUrl = `https://www.linkedin.com/company/${company.name}/posts/?feedView=all`
