@@ -1,3 +1,4 @@
+const { groupBy } = require("cypress/types/lodash")
 const config = require("../../config.json")
 
 describe('Extract', () => {
@@ -6,6 +7,8 @@ describe('Extract', () => {
       failOnStatusCode: false,
       timeout: 60000
     }
+
+    cy.task('log', 'Login ...')
     const loginUrl = 'https://www.linkedin.com/login/fr?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin'
     cy.visit(loginUrl, visitOptions)
 
@@ -13,8 +16,18 @@ describe('Extract', () => {
     cy.get('#password').type(config.password)
     cy.get('button[type="submit"]').click()
 
-    cy.contains('Vérifier').click()
-    cy.get('#image5 a').click()
+    // Procédons à une petite vérification de sécurité
+    // #home_children_button
+    cy.wait(10000)
+    cy.get('body').then(($bodyElement) => {
+      if ($bodyElement.find('#home_children_button').length > 0) {
+        cy.get('#home_children_button').click();
+        cy.wait(1000)
+        cy.get('#image5 a').click()
+      } else {
+
+      }
+    })
 
     cy.get('.feed-shared-control-menu', {timeout: 10000}).should('exist')
 
