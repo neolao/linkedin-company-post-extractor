@@ -46,14 +46,15 @@ describe('Extract', () => {
         const url = $linkElement.attr('href')
         cy.task('log', `URL: ${url}`)
 
-        cy.task('log', 'Done')
-        cy.task('logPost', {name: company.name, urn, url, description})
+        cy.task('logPost', {company: company.name, urn, url, description})
 
-        const hookData = {id: urn, title: urn, url, description};
+        const hookData = {id: urn, title: urn, url, description}
         cy.task('log', `Post on hook: ${company.hook} ${JSON.stringify(hookData)}`)
         axios.post(company.hook, hookData)
 
         cy.wait(2000)
+
+        cy.task('log', 'Done')
       });
     }
   })

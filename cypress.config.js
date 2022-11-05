@@ -14,7 +14,8 @@ export default defineConfig({
           return null
         },
         logPost ({company, urn, url, description}) {
-          console.log(company, urn, url, description);
+          console.log('Crawled:')
+          console.log(company, urn, url, description)
           return null
         }
       })
