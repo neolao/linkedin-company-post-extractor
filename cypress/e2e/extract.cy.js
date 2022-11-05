@@ -50,7 +50,7 @@ describe('Extract', () => {
 
         const hookData = {id: urn, title: urn, url, description}
         cy.task('log', `Post on hook: ${company.hook} ${JSON.stringify(hookData)}`)
-        axios.post(company.hook, hookData)
+        //axios.post(company.hook, hookData)
 
         cy.wait(2000)
 
