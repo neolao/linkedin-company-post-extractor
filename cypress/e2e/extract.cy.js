@@ -2,7 +2,7 @@ import axios from "axios"
 const config = require("../../config.json")
 
 describe('Extract', () => {
-  it('should pass', () => {
+  it('should pass', async () => {
     const visitOptions = {
       failOnStatusCode: false,
       timeout: 60000
@@ -49,7 +49,11 @@ describe('Extract', () => {
         cy.task('log', 'Done')
         cy.task('logPost', {name: company.name, urn, url, description})
 
-        axios.post(company.hook, {id: urn, title: urn, url, description});
+        const hookData = {id: urn, title: urn, url, description};
+        cy.task('log', `Post on hook: ${company.hook} ${JSON.stringify(hookData)}`)
+        axios.post(company.hook, hookData)
+
+        cy.wait(2000)
       });
     }
   })
