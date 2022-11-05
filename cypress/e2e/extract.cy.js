@@ -13,7 +13,7 @@ describe('Extract', () => {
     cy.get('#password').type(config.password)
     cy.get('button[type="submit"]').click()
 
-    cy.get('.feed-shared-control-menu').should('exist')
+    cy.get('.feed-shared-control-menu', {timeout: 30000}).should('exist')
 
     for (let company of config.companies) {
       cy.task('log', `Parse ${company.name} ...`)
