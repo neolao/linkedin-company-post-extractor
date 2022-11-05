@@ -1,4 +1,5 @@
-import { defineConfig } from "cypress";
+import { defineConfig } from "cypress"
+import axios from "axios"
 
 export default defineConfig({
   video: true,
@@ -16,6 +17,17 @@ export default defineConfig({
         logPost ({company, urn, url, description}) {
           console.log('Crawled:')
           console.log(company, urn, url, description)
+
+          
+          return null
+        },
+        hook ({url, data}) {
+          axios.post(url, data, {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json;charset=UTF-8"
+            }
+          })
           return null
         }
       })

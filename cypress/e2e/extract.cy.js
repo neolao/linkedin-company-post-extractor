@@ -1,4 +1,3 @@
-import axios from "axios"
 const config = require("../../config.json")
 
 describe('Extract', () => {
@@ -50,11 +49,10 @@ describe('Extract', () => {
 
         const hookData = {id: urn, title: urn, url, description}
         cy.task('log', `Post on hook: ${company.hook} ${JSON.stringify(hookData)}`)
-        //axios.post(company.hook, hookData)
-
-        cy.wait(2000)
-
-        cy.task('log', 'Done')
+        cy.wait(100).then(() => {
+          cy.task('hook', {url: company.hook, data: hookData})
+        });
+        
       });
     }
   })
