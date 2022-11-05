@@ -13,6 +13,8 @@ describe('Extract', () => {
     cy.get('#password').type(config.password)
     cy.get('button[type="submit"]').click()
 
+    cy.get('.feed-shared-control-menu').should('not.exist')
+
     for ( let company of config.companies) {
       cy.task('log', `Parse ${company.name} ...`)
 
