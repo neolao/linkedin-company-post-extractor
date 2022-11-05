@@ -1,4 +1,3 @@
-const { groupBy } = require("cypress/types/lodash")
 const config = require("../../config.json")
 
 describe('Extract', () => {
@@ -6,6 +5,13 @@ describe('Extract', () => {
     const visitOptions = {
       failOnStatusCode: false,
       timeout: 60000
+    }
+
+    if (config.cookies) {
+      for (let cookieName in config.cookies) {
+        cy.task('log', `Set cookie "${cookieName}": ${config.cookies[cookieName]}`)
+        cy.setCookie(cookieName, config.cookies[cookieName])
+      }
     }
 
     cy.task('log', 'Login ...')
@@ -16,18 +22,21 @@ describe('Extract', () => {
     cy.get('#password').type(config.password)
     cy.get('button[type="submit"]').click()
 
+    /*
     // Procédons à une petite vérification de sécurité
     // #home_children_button
-    cy.wait(10000)
+    cy.wait(30000)
     cy.get('body').then(($bodyElement) => {
       if ($bodyElement.find('#home_children_button').length > 0) {
+        cy.task('log', 'Check robot ...')
         cy.get('#home_children_button').click();
         cy.wait(1000)
         cy.get('#image5 a').click()
       } else {
-
+        
       }
     })
+    */
 
     cy.get('.feed-shared-control-menu', {timeout: 10000}).should('exist')
 
