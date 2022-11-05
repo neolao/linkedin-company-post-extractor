@@ -14,6 +14,9 @@ describe('Extract', () => {
       }
     }
 
+    const homepageUrl = 'https://www.linkedin.com/'
+    cy.visit(homepageUrl, visitOptions)
+    /*
     cy.task('log', 'Login ...')
     const loginUrl = 'https://www.linkedin.com/login/fr?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin'
     cy.visit(loginUrl, visitOptions)
@@ -21,6 +24,7 @@ describe('Extract', () => {
     cy.get('#username').type(config.username)
     cy.get('#password').type(config.password)
     cy.get('button[type="submit"]').click()
+    */
 
     /*
     // Procédons à une petite vérification de sécurité
