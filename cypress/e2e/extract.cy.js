@@ -2,7 +2,7 @@ import axios from "axios"
 const config = require("../../config.json")
 
 describe('Extract', () => {
-  it('should pass', async () => {
+  it('should pass', () => {
     const visitOptions = {
       failOnStatusCode: false,
       timeout: 60000
