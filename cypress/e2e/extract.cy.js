@@ -47,7 +47,7 @@ describe('Extract', () => {
         cy.task('log', `URL: ${url}`)
 
         cy.task('log', 'Done')
-        cy.task('logPost', {company.name, urn, url, description})
+        cy.task('logPost', {name: company.name, urn, url, description})
 
         axios.post(company.hook, {id: urn, title: urn, url, description});
       });
