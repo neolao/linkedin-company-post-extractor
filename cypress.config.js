@@ -1,22 +1,5 @@
 import { defineConfig } from "cypress";
 
-function updateRSSFile(company, urn, url, description) {
-  console.log(company, urn, url, description)
-
-  const content = `<rss version="2.0">
-  <channel>
-      <title>${company}</title>
-      <link>https://www.linkedin.com/company/${company}</link>
-      <description>${company}</description>
-      <item>
-        <title>${urn}</title>
-        <link>${url}</link>
-        <description>${description}</description>
-      </item>
-  </channel>
-  </rss>`;
-}
-
 export default defineConfig({
   video: true,
   videoCompression: 16,

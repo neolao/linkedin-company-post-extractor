@@ -2,6 +2,9 @@
   "username": "",
   "password": "",
   "companies": [
-    "microsoft"
+    {
+      "name": "microsoft",
+      "hook": "http://my.hook.com"
+    }
   ]
 }

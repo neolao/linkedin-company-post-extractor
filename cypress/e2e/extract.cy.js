@@ -1,3 +1,4 @@
+import axios from "axios"
 const config = require("../../config.json")
 
 describe('Extract', () => {
@@ -14,9 +15,9 @@ describe('Extract', () => {
     cy.get('button[type="submit"]').click()
 
     for ( let company of config.companies) {
-      cy.task('log', `Parse ${company} ...`)
+      cy.task('log', `Parse ${company.name} ...`)
 
-      const companyUrl = `https://www.linkedin.com/company/${company}/posts/?feedView=all`
+      const companyUrl = `https://www.linkedin.com/company/${company.name}/posts/?feedView=all`
       cy.task('log', `Visit ${companyUrl} ...`)
       cy.visit(companyUrl, visitOptions)
 
@@ -46,7 +47,9 @@ describe('Extract', () => {
         cy.task('log', `URL: ${url}`)
 
         cy.task('log', 'Done')
-        cy.task('logPost', {company, urn, url, description})
+        cy.task('logPost', {company.name, urn, url, description})
+
+        axios.post(company.hook, {id: urn, title: urn, url, description});
       });
     }
   })
