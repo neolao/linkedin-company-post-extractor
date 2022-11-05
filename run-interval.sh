@@ -2,11 +2,12 @@
 
 while true
 do
-  date
+  date +"%Y-%m-%d %T"
 
   npm run cypress:run
 
-  echo "Next run: ${date -d "+6 hours"}"
+  nextDate=$({date +"%Y-%m-%d %T" -d "+6 hours")
+  echo "Next run: $nextDate"
   # 60 * 60 * 6 = 21600
   sleep 21600
 done
