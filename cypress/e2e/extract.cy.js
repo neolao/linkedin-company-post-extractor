@@ -56,12 +56,22 @@ describe('Extract', () => {
       cy.get('.feed-shared-update-v2').first().then(($postElement) => {
         urn = $postElement.attr('data-urn')
         cy.task('log', `URN: ${urn}`)
+
+        cy.task('log', 'Try to get post description')
+        if ($postElement.find('.feed-shared-update-v2__description-wrapper').length > 0) {
+          cy.get('.feed-shared-update-v2 .feed-shared-update-v2__description-wrapper').first().then(($descriptionElement) => {
+            description = $descriptionElement.text()
+            cy.task('log', `Description: ${description}`)
+          })
+        }
       })
+      /*
       cy.task('log', 'Get post description')
       cy.get('.feed-shared-update-v2 .feed-shared-update-v2__description-wrapper').first().then(($descriptionElement) => {
         description = $descriptionElement.text()
         cy.task('log', `Description: ${description}`)
       })
+      */
 
       cy.task('log', 'Get post URL: click on menu')
       cy.get('.feed-shared-update-v2 .feed-shared-control-menu button').click()
