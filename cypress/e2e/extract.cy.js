@@ -1,7 +1,16 @@
 const config = require("../../config.json")
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // returning false here prevents Cypress from
+  // failing the test
+  return false
+})
+
 describe('Extract', () => {
   it('should pass', () => {
+    cy.task('log', `COMPANIES_START_INDEX: ${Cypress.env('COMPANIES_START_INDEX')}`)
+    cy.task('log', `COMPANIES_END_INDEX: ${Cypress.env('COMPANIES_END_INDEX')}`)
+
     const visitOptions = {
       failOnStatusCode: false,
       timeout: 60000
@@ -44,8 +53,19 @@ describe('Extract', () => {
 
     cy.get('.feed-shared-control-menu', {timeout: 10000}).should('exist')
 
-    for (let company of config.companies) {
-      cy.task('log', `Parse ${company.name} ...`)
+    //for (let company of config.companies) {
+    for (let index = 0; index < config.companies.length; index++) {
+      if (Cypress.env('COMPANIES_START_INDEX') !== undefined && index < Cypress.env('COMPANIES_START_INDEX')) {
+        continue;
+      }
+
+      if (Cypress.env('COMPANIES_END_INDEX') !== undefined && index > Cypress.env('COMPANIES_END_INDEX')) {
+        continue;
+      }
+
+      const company = config.companies[index];
+      cy.task('log', `--------`)
+      cy.task('log', `Parse ${company.name} (index: ${index}) ...`)
 
       const companyUrl = `https://www.linkedin.com/company/${company.name}/posts/?feedView=all`
       cy.task('log', `Visit ${companyUrl} ...`)
