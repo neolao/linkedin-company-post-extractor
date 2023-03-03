@@ -2,3 +2,7 @@ node_modules
 cypress/screenshots/
 cypress/videos/
 config.json
+cookie_JSESSIONID
+cookie_li_at
+cookie_li_mc
+cookie_lidc

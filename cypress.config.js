@@ -2,7 +2,7 @@ import { defineConfig } from "cypress"
 import axios from "axios"
 
 export default defineConfig({
-  video: false,
+  video: true,
   videoCompression: 16,
   userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36',
   e2e: {

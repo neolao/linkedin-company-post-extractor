@@ -16,12 +16,31 @@ describe('Extract', () => {
       timeout: 60000
     }
 
+    // Set cookies from config
     if (config.cookies) {
       for (let cookieName in config.cookies) {
         cy.task('log', `Set cookie "${cookieName}": ${config.cookies[cookieName]}`)
         cy.setCookie(cookieName, config.cookies[cookieName])
       }
     }
+
+    // Set cookies from last
+    cy.readFile('cookie_li_at').then((value) => {
+        cy.task('log', `Set cookie "li_at": ${value}`)
+	cy.setCookie('li_at', value.trim() )
+    })
+    cy.readFile('cookie_lidc').then((value) => {
+        cy.task('log', `Set cookie "lidc": ${value}`)
+	cy.setCookie('lidc', value.trim() )
+    })
+    cy.readFile('cookie_li_mc').then((value) => {
+        cy.task('log', `Set cookie "li_mc": ${value}`)
+	cy.setCookie('li_mc', value.trim())
+    })
+    cy.readFile('cookie_JSESSIONID').then((value) => {
+        cy.task('log', `Set cookie "JSESSIONID": ${value}`)
+	cy.setCookie('JSESSIONID', value.trim())
+    })
 
     const homepageUrl = 'https://www.linkedin.com/'
     cy.visit(homepageUrl, visitOptions)
@@ -52,6 +71,28 @@ describe('Extract', () => {
     */
 
     cy.get('.feed-shared-control-menu', {timeout: 10000}).should('exist')
+
+
+    // Update cookies
+    /*
+    cy.getAllCookies().then((cookies) => {
+	for (let cookie of cookies) {
+           cy.task('log', cookie);
+	}
+    });
+    */
+    cy.getCookie('li_at').then((cookie) => {
+	cy.writeFile('cookie_li_at', cookie.value);	
+    });
+    cy.getCookie('lidc').then((cookie) => {
+	cy.writeFile('cookie_lidc', cookie.value);	
+    });
+    cy.getCookie('li_mc').then((cookie) => {
+	cy.writeFile('cookie_li_mc', cookie.value);	
+    });
+    cy.getCookie('JSESSIONID').then((cookie) => {
+	cy.writeFile('cookie_JSESSIONID', cookie.value);	
+    });
 
     //for (let company of config.companies) {
     for (let index = 0; index < config.companies.length; index++) {
