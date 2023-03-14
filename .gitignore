@@ -2,6 +2,7 @@ node_modules
 cypress/screenshots/
 cypress/videos/
 config.json
+post.sh
 cookie_JSESSIONID
 cookie_li_at
 cookie_li_mc
