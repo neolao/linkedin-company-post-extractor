@@ -1,4 +1,5 @@
 const config = require("../../config.json")
+const firefoxCookies = require("../../firefox-cookies.json")
 
 Cypress.on('uncaught:exception', (err, runnable) => {
   // returning false here prevents Cypress from
@@ -17,14 +18,36 @@ describe('Extract', () => {
     }
 
     // Set cookies from config
+    /*
     if (config.cookies) {
       for (let cookieName in config.cookies) {
         cy.task('log', `Set cookie "${cookieName}": ${config.cookies[cookieName]}`)
         cy.setCookie(cookieName, config.cookies[cookieName])
       }
     }
+    //*/
 
-    // Set cookies from last
+    // Set cookies from firefox-cookies.json
+    cy.task('log', 'Set cookies from firefox')
+    for (let cookieName in firefoxCookies["Request Cookies"]) {
+      const cookieValue = firefoxCookies["Request Cookies"][cookieName]
+      cy.task('log', `Set cookie "${cookieName}": ${cookieValue}`)
+      cy.setCookie(cookieName, cookieValue)
+    }
+    /*
+    cy.readFile('firefox-cookies.json').then((value) => {
+	cy.task('log', value)
+	const cookies = JSON.parse(value)
+	for (let cookieName in cookies["Request Cookies"]) {
+	    const cookieValue = cookies["Request Cookies"][cookieName]
+            cy.task('log', `Set cookie "${cookieName}": ${cookieValue}`)
+	    cy.setCookie(cookieName, cookieValue)
+	}
+    })
+    //*/
+
+    // Set cookies from last session
+    /*
     cy.readFile('cookie_li_at').then((value) => {
         cy.task('log', `Set cookie "li_at": ${value}`)
 	cy.setCookie('li_at', value.trim() )
@@ -41,8 +64,9 @@ describe('Extract', () => {
         cy.task('log', `Set cookie "JSESSIONID": ${value}`)
 	cy.setCookie('JSESSIONID', value.trim())
     })
+    //*/
 
-    const homepageUrl = 'https://www.linkedin.com/'
+    const homepageUrl = 'https://linkedin.com/mynetwork/'
     cy.visit(homepageUrl, visitOptions)
     /*
     cy.task('log', 'Login ...')
@@ -70,7 +94,8 @@ describe('Extract', () => {
     })
     */
 
-    cy.get('.feed-shared-control-menu', {timeout: 10000}).should('exist')
+    //cy.get('.feed-shared-control-menu', {timeout: 10000}).should('exist')
+    cy.get('.global-nav__nav', {timeout: 10000}).should('exist')
 
 
     // Update cookies
@@ -112,6 +137,8 @@ describe('Extract', () => {
       cy.task('log', `Visit ${companyUrl} ...`)
       cy.visit(companyUrl, visitOptions)
 
+      cy.scrollTo(0, 500)
+
       let urn, description;
       cy.task('log', 'Get post URN')
       cy.get('.feed-shared-update-v2').first().then(($postElement) => {
@@ -119,8 +146,8 @@ describe('Extract', () => {
         cy.task('log', `URN: ${urn}`)
 
         cy.task('log', 'Try to get post description')
-        if ($postElement.find('.feed-shared-update-v2__description-wrapper').length > 0) {
-          cy.get('.feed-shared-update-v2 .feed-shared-update-v2__description-wrapper').first().then(($descriptionElement) => {
+        if ($postElement.find('.feed-shared-update-v2__commentary').length > 0) {
+          cy.get('.feed-shared-update-v2__commentary').first().then(($descriptionElement) => {
             description = $descriptionElement.text()
             cy.task('log', `Description: ${description}`)
           })
@@ -135,7 +162,7 @@ describe('Extract', () => {
       */
 
       cy.task('log', 'Get post URL: click on menu')
-      cy.get('.feed-shared-update-v2 .feed-shared-control-menu button').click()
+      cy.get('.feed-shared-update-v2 .feed-shared-control-menu button').first().click()
       cy.wait(2000);
 
       cy.task('log', 'Get post URL: click on menu entry')
